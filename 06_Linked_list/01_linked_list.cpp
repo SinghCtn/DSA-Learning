@@ -26,6 +26,11 @@ class LinkedList{
         Node * search(int x);
         Node * searchH(int key);
         void insert(int index, int x);
+        void insertSorted(int x);
+        int Delete(int index);
+        int checkSorted();
+        void removeDuplicatesSorted();
+        void reverse();
 };
 
 void LinkedList::createFromArray(int A[], int n){
@@ -159,6 +164,8 @@ Node * LinkedList::searchH(int key){
 
 // inserting in a linked list
 void LinkedList::insert(int index, int x){
+    if(index < 0) return;
+
     Node *temp = new Node;
     temp->data = x;
 
@@ -172,9 +179,115 @@ void LinkedList::insert(int index, int x){
     for(int i = 1; i < index; i++){
         p = p->next;
     }
-
+    if(p){
     temp->next = p->next;
     p->next = temp;
+    }else{
+        delete temp;
+        cout<<"Index out of bounds";
+    }
+}
+
+// insert in a sorted list
+void LinkedList::insertSorted(int x){
+    Node *temp = new Node;
+    temp->data = x;
+    temp->next = nullptr;
+
+    if(!head || head->data >= x){
+        temp->next = head;
+        head = temp;
+        return;
+    }
+
+    Node *p = head;
+    while(p->next){
+        if(p->next->data > x){
+            temp->next = p->next;
+            p->next = temp;
+            return;
+        }
+        p = p->next;
+    }
+
+    p->next = temp;
+}
+
+int LinkedList::Delete(int index){
+    if(!head) return -1;
+
+    Node *p = head;
+    int x;
+    if(index == 0){
+        x = head->data;
+        head = head->next;
+        delete p;
+        return x;
+    }
+
+    Node *q = nullptr;
+
+    for(int i = 0; i < index; i++){
+        q = p;
+        p = p->next;
+
+        if(!p) return -1;
+    }
+    x = p->data;
+    q->next = p->next;
+    delete p;
+    return x;
+}
+
+// check if linked list is sorted or not
+int LinkedList::checkSorted(){
+    Node *p = head;
+
+    while(p->next){
+        if(p->data > p->next->data) return 0;
+        p = p->next;
+    }
+
+    return 1;
+}
+
+// delete duplicates from sorted linked list
+void LinkedList::removeDuplicatesSorted(){
+    if(!head || !head->next) return;
+
+    Node *p = head->next;
+    Node *q = head;
+
+    while(p){
+        if(p->data == q->data){
+            q->next = p->next;
+            delete p;
+            p = q->next;
+            continue;
+        }
+        q = q->next;
+        p = p->next;
+    }
+}
+
+// Reversing linked list;
+void LinkedList::reverse(){
+    if(!head || !head->next) return;
+
+    Node *p = head->next;
+    Node *q = head;
+    Node *r = nullptr;
+
+    while(q){
+        q->next = r;
+        r = q;
+        q = p;
+        if(p){
+            p = p->next;
+        }
+    }
+
+    head = r;
 }
 
 int main(){
@@ -195,12 +308,25 @@ int main(){
     cout<<"At: "<<list.search(3)<<endl;
     // cout<<"At: "<<list.searchH(7)<<endl;
 
-    list.insert(0, 2);
-    list.insert(3, 2);
+    // list.insert(0, 2);
+    // list.insertSorted(1);
+    // list.insertSorted(8);
+    // list.insertSorted(20);
 
-    list.display();
-    
-    
+    // cout<<"Deleted: "<<list.Delete(0)<<endl;
+    // cout<<"Deleted: "<<list.Delete(0)<<endl;
+    // cout<<"Deleted: "<<list.Delete(3)<<endl;
+    // cout<<"Deleted: "<<list.Delete(6)<<endl;
+
+    // cout<<"Sorted: "<<list.checkSorted()<<endl;
+
+    // list.removeDuplicatesSorted();
+
+
+    // list.display();
+    // list.reverse();
+
+    list.display();    
     // list.displayR();
     // list.displayR();
 
