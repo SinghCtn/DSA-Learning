@@ -75,6 +75,11 @@ void CLinkedList::insert(int index, int x){
     temp->next = nullptr;
     
     if(!head){
+        if (index != 0) {
+            cout << "Index out of bounds !!" << endl;
+            delete temp;
+            return;
+        }
         head = temp;
         head->next = head;
         return;
@@ -89,16 +94,20 @@ void CLinkedList::insert(int index, int x){
 
         temp->next = head;
         p->next = temp;
-
+        head = temp;
         return;
     }
     
     for(int i = 1; i < index; i++){
         p = p->next;
         
-        if(p->next == head && i + 1 != index){
-            cout<<"Index out of bounds !!"<<endl;
-            return;
+        if(p->next == head){
+            if(i + 1 != index){
+                cout<<"Index out of bounds !!"<<endl;
+                delete temp;
+                return;
+            }
+            break;
         }
     }
 
@@ -139,7 +148,7 @@ int CLinkedList::Delete(int index){
 
     for(int i = 0; i < index-1; i++){
         p = p->next; 
-        if(p == head){
+        if(p->next == head){
             cout<<"index out of bounds!!"<<endl;
             return -1;
         }
@@ -147,7 +156,7 @@ int CLinkedList::Delete(int index){
     Node *q = p->next;
     x = q->data;
     p->next = q->next;
-    delete p;
+    delete q;
     return x;
 }
 
@@ -158,13 +167,20 @@ int main(){
     list.createFromArray(A, 6);
 
     list.insert(3, 10);
+    list.display();
     list.insert(0, 100);
+    list.display();
     list.insert(8, 169);
+    list.display();
     list.insert(10, 200);
+    list.display();
 
     list.Delete(0);
+    list.display();
     list.Delete(3);
+    list.display();
     list.Delete(6);
+    list.display();
     list.Delete(6);
 
 
