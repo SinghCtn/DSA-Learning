@@ -14,7 +14,7 @@ class LinkedList{
         LinkedList(){
             head = nullptr;
         }
-
+        Node * getHead();
         void createFromArray(int A[], int i);
         void display();
         // void displayR();
@@ -31,7 +31,13 @@ class LinkedList{
         int checkSorted();
         void removeDuplicatesSorted();
         void reverse();
+        void concat(Node * list);
+        void merge(Node * list);
 };
+
+Node * LinkedList::getHead(){
+    return head;
+}
 
 void LinkedList::createFromArray(int A[], int n){
     Node *last, *temp;
@@ -272,29 +278,78 @@ void LinkedList::removeDuplicatesSorted(){
 
 // Reversing linked list;
 void LinkedList::reverse(){
-    if(!head || !head->next) return;
-
-    Node *p = head->next;
-    Node *q = head;
+    Node *p = head;
+    Node *q = nullptr;
     Node *r = nullptr;
 
-    while(q){
-        q->next = r;
+    while(p){
         r = q;
         q = p;
-        if(p){
-            p = p->next;
+        p = p->next;
+        q->next = r;
+    }
+
+    head = q;
+}
+
+// concatinate two lists;
+void LinkedList::concat(Node * list){
+    Node *p = head;
+
+    while(p->next){
+        p = p->next;
+    }
+
+    p->next = list;
+}
+
+// merging two linked lists
+void LinkedList::merge(Node *list){
+    if(!head){
+        head = list;
+        return ;
+    }
+
+    if(!list) return;
+
+    Node * third;
+    Node * last;
+
+    if(head->data < list->data){
+        third = last = head;
+        head = head->next;
+    }else{
+        third = last = list;
+        list = list->next;
+    }
+
+    while(head && list){
+        if(head->data < list->data){ 
+            last->next = head;
+            last = head;
+            head = head->next;
+        }
+        else{ 
+            last->next = list;
+            last = list;
+            list = list->next;
         }
     }
 
-    head = r;
+    if(!list){
+        last->next = head;
+    }else{
+        last->next = list;
+    }
+
+    head = third;
 }
 
 int main(){
-    LinkedList list;
-    int A[] = {3, 5, 7, 10, 15, 17};
+    LinkedList list ;
+    int A[] = {2, 8, 10, 15};
 
-    list.createFromArray(A, 6);
+    list.createFromArray(A, 4);
 
     // cout<<list.countR(0)<<endl;
     cout<<"count: "<<list.count()<<endl;
@@ -305,7 +360,7 @@ int main(){
 
     cout<<"Min: "<<list.min()<<endl;
 
-    cout<<"At: "<<list.search(3)<<endl;
+    cout<<"At: "<<list.search(8)<<endl;
     // cout<<"At: "<<list.searchH(7)<<endl;
 
     // list.insert(0, 2);
@@ -325,6 +380,16 @@ int main(){
 
     // list.display();
     // list.reverse();
+    
+    // LinkedList list2;
+    // int A2[] = {92, 32, 54};
+    // list2.createFromArray(A2, 3);
+    // list.concat(list2.getHead());
+
+    LinkedList list2;
+    int A2[] = {4, 7, 12, 14};
+    list2.createFromArray(A2, 4);
+    list.merge(list2.getHead());
 
     list.display();    
     // list.displayR();
