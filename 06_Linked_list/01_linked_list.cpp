@@ -33,6 +33,7 @@ class LinkedList{
         void reverse();
         void concat(Node * list);
         void merge(Node * list);
+        int checkLoop();
 };
 
 Node * LinkedList::getHead(){
@@ -345,6 +346,24 @@ void LinkedList::merge(Node *list){
     head = third;
 }
 
+// check if linkedlist has a loop
+int LinkedList::checkLoop(){
+    if(!head || !head->next) return 0;
+
+    Node *q = head;
+    Node *p = head->next->next;
+
+    while(p && p->next){
+        if(p == q) return 1;
+        
+        p = p->next->next;
+        q = q->next;
+        
+    }
+
+    return 0;
+}
+
 int main(){
     LinkedList list ;
     int A[] = {2, 8, 10, 15};
@@ -386,10 +405,10 @@ int main(){
     // list2.createFromArray(A2, 3);
     // list.concat(list2.getHead());
 
-    LinkedList list2;
-    int A2[] = {4, 7, 12, 14};
-    list2.createFromArray(A2, 4);
-    list.merge(list2.getHead());
+    // LinkedList list2;
+    // int A2[] = {4, 7, 12, 14};
+    // list2.createFromArray(A2, 4);
+    // list.merge(list2.getHead());
 
     list.display();    
     // list.displayR();
