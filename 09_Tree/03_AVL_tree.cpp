@@ -151,8 +151,6 @@ void AVL::creatingAVL(int A[], int n){
     }
 }
 
-
-
 int main(){
     AVL tree;
     tree.RInsert(tree.getroot(), 10);
