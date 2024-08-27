@@ -1,2 +1,0 @@
-h.Delete();
-    h.Display();
