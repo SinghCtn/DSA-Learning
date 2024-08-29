@@ -3,14 +3,18 @@ using namespace std;
 
 void Sort(int *A, int n){
     if(n < 1) return;
-
     for(int i = 0; i < n - 1; i++){
+        int flag = 0;
         int j = 0;
         while(j < n - i - 1){
             if(A[j] > A[j + 1]){
                 swap(A[j], A[j + 1]);
+                flag = 1;
             }
             j++;
+        }
+        if(flag == 0){
+            break;
         }
     }
 }
