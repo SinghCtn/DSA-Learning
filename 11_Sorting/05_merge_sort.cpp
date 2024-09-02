@@ -57,6 +57,16 @@ void IMergeSort(int A[], int n) {
     }
 }
 
+void RMergeSort(int A[], int l, int h){
+    if(l < h){
+        int mid = (l + h) / 2;
+        RMergeSort(A, l, mid);
+        RMergeSort(A, mid + 1, h);
+        Merge(A, l, mid, h);
+    }
+
+}
+
 void Display(int A[], int n) {
     for(int i = 0; i < n; i++) {
         cout << A[i] << " ";
@@ -68,7 +78,7 @@ int main() {
     int A[] = {11, 13, 7, 12, 16, 9, 24, 5, 10, 3, 4};
     int n = sizeof(A) / sizeof(A[0]);  // Calculate the size of the array
 
-    IMergeSort(A, n);  // Sort the array
+    RMergeSort(A, 0, n - 1);  // Sort the array
     Display(A, n);     // Display the sorted array
 
     return 0;
