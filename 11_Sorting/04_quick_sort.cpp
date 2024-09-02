@@ -41,7 +41,7 @@ void Display(int A[], int n){
 int main(){
     int A[] = {11, 13, 7, 12, 16, 9, 24, 5, 10, 3, INT16_MAX}, n = 11;
 
-    Sort(A, 0, 11);
+    Sort(A, 0, n);
     Display(A, 10);
     
     return 0;
