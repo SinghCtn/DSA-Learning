@@ -41,7 +41,7 @@ int main(){
 
     Set S(8);
     int t[2][6];
-    int included[9];
+    int included[9] = {0};
     int i = 0;
 
     while(i < 6){
